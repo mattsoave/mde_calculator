@@ -3,34 +3,17 @@ const babel = require('gulp-babel');
 const rename = require ('gulp-rename');
 const uglify = require('gulp-uglify');
 
-const SRC = "./src";
-const DEST = "./build";
+const JS_SRC = "./js/src";
+const JS_DEST = "./js/build";
  
-gulp.task('babel', () => {
-    return gulp.src(SRC + '/js/*.js')
-        .pipe(babel({
-            presets: ['es2015']
-        }))
-        .pipe(gulp.dest('./build/js'));
-});
-
 // Save a copy of the original, then a minified copy of the babel-ified version
 gulp.task("js", function() {
-    return gulp.src(SRC + '/js/*.js')
-        .pipe(gulp.dest(DEST + '/js'))
+    return gulp.src(JS_SRC + '/*.js')
         .pipe(babel({
             presets: ['es2015']
         }))
-        .pipe(gulp.dest(DEST + '/js'))
+        .pipe(gulp.dest(JS_DEST))
         .pipe(uglify())
         .pipe(rename({ extname: ".min.js"}))
-        .pipe(gulp.dest(DEST + '/js'));
-});
-
-gulp.task("react", function() {
-    return gulp.src(SRC + "/js/*.jsx")
-        .pipe(babel({
-            plugins: ['transform-react-jsx']
-        }))
-        .pipe(gulp.dest(SRC + "/js"));
+        .pipe(gulp.dest(JS_DEST));
 });
